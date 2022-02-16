@@ -1,0 +1,4 @@
+/bin/windows
+/examples/.vs
+/objs
+/sdk/windows/*.dll
