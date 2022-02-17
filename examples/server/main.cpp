@@ -10,6 +10,7 @@
 #pragma comment(linker,"/subsystem:\"windows\" /entry:\"wmainCRTStartup\"")//不显示窗口
 #endif
 
+const static std::basic_string<TCHAR> dll_path = _T("..\\..\\sdk\\windows\\fpsdk_server.dll");
 const static char url[] = "https://fprpc.icloud.cn";
 const static char company_id[] = { "26132625" };
 const static char company_token[] = { "8ebb9b4883eb437cb83a850a07586ca7" };
@@ -103,11 +104,11 @@ private:
 
 bool FpSdkService::init()
 {
-    hdll_ = LoadLibrary(_T("..\\..\\sdk\\windows\\fpsdk_server.dll"));
+    hdll_ = LoadLibrary(dll_path.c_str());
 
     if (!hdll_)
     {
-        printf("load library fail");
+        printf("load library fail %d", GetLastError());
         return false;
     }
     fp_init_func_ = (fp_init_t)GetProcAddress(hdll_, "fp_init");
@@ -233,6 +234,17 @@ void run()
     g_fp_sdk.fp_start_service();
 }
 
+bool is_run_as_service()
+{
+    DWORD current_process_id = GetCurrentProcessId();
+    DWORD prev_session_id = 0;
+    if (FALSE == ProcessIdToSessionId(current_process_id, &prev_session_id))
+    {
+        return false;
+    }
+    return prev_session_id == 0;
+}
+
 int _tmain(int argc, const TCHAR* argv[])
 {
     //加载fpsdk动态库
@@ -244,7 +256,18 @@ int _tmain(int argc, const TCHAR* argv[])
     auto res = 0;
     if (argc < 2)
     {
-        res = run_as_service(on_start, run, on_stop);
+        if (is_run_as_service())
+        {
+            res = run_as_service(on_start, run, on_stop);
+        }
+        else
+        {
+            // 如果不是服务方式运行exe，请通过双击exe启动，不支持vs直接启动
+            // 默认不显示控制台，可以注释cpp最上面的宏显示控制台
+            on_start();
+            run();
+            on_stop();
+        }
     }
     else
     {

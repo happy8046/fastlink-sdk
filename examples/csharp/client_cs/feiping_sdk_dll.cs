@@ -122,28 +122,30 @@ namespace feiping_sdk_demo_client_cs
     {
         public delegate void fp_on_event(int fp, FPEvent on_event);
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_init", CallingConvention = CallingConvention.StdCall)]
+        const string dll_name = @"..\..\sdk\windows\fpsdk_client.dll";
+
+        [DllImport(dll_name, EntryPoint = "fp_init", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_init(String url, String company_id);
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_uninit", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_uninit", CallingConvention = CallingConvention.StdCall)]
         public static extern void fp_uninit();
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_create_client", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_create_client", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_create_client();
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_connect", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_connect", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_connect(int fd, String address, String token, FPConnectType connect_type);
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_close", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_close", CallingConvention = CallingConvention.StdCall)]
         public static extern void fp_close(int fd);
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_set_option", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_set_option", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_set_option(int fd, FPOption opt, String val, int len);
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_set_on_event", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_set_on_event", CallingConvention = CallingConvention.StdCall)]
         public static extern void fp_set_on_event(fp_on_event on_event);
 
-        [DllImport("fpsdk_client.dll", EntryPoint = "fp_set_port_mapping", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_set_port_mapping", CallingConvention = CallingConvention.StdCall)]
         public static extern void fp_set_port_mapping(int start_port, int end_port);
         // 以此类推添加函数
     }

@@ -127,28 +127,30 @@ namespace feiping_sdk_demo_server_cs
         public delegate int fp_on_auth(int fd, String token, FPConnectType type);
         public delegate void fp_on_error(FPErrCode error);
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_init", CallingConvention = CallingConvention.StdCall)]
+        const string dll_name = @"..\..\sdk\windows\fpsdk_server.dll";
+
+        [DllImport(dll_name, EntryPoint = "fp_init", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_init(String url, String commpany_id, String token);
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_uninit", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_uninit", CallingConvention = CallingConvention.StdCall)]
         public static extern void fp_uninit();
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_set_address", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_set_address", CallingConvention = CallingConvention.StdCall)]
         public static extern void fp_set_address(String addr);
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_set_on_auth", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_set_on_auth", CallingConvention = CallingConvention.StdCall)]
         public static extern void fp_set_on_auth(fp_on_auth on_auth);
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_start_service", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_start_service", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_start_service();
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_start_worker", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_start_worker", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_start_worker(int argc, IntPtr argv);
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_set_on_error", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_set_on_error", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_set_on_error(fp_on_error on_error);
 
-        [DllImport("fpsdk_server.dll", EntryPoint = "fp_set_virtual_display", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(dll_name, EntryPoint = "fp_set_virtual_display", CallingConvention = CallingConvention.StdCall)]
         public static extern int fp_set_virtual_display(FPVirtualDisplayMode mode);
     }
 }
